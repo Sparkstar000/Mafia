@@ -8,6 +8,8 @@
 
 	<title>Mafia | {% block title %}{% endblock %}</title>
 
+    <link rel="icon" href="/static/images/icon.svg">
+
     <script src="/static/js/utils.js"></script>
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.red.min.css">
@@ -17,13 +19,7 @@
 <body>
     <header>
         <nav>
-            <ul>
-                <li><strong><a href="/">Mafia</a></strong></li>
-            </ul>
-
-            <ul>
-                {% block nav %}{% endblock %}
-            </ul>
+            {% block nav %}{% endblock %}
         </nav>
     </header>
 

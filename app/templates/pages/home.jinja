@@ -1,22 +1,35 @@
+{% extends 'pages/base.jinja' %}
+
 {% block title %}
     Start
 {% endblock %}
 
+{% block nav %}
+    <ul>
+        <li><strong><a href="/">Mafia</a></strong></li>
+    </ul>
+{% endblock %}
+
 {% block content %}
+    <article>
+        <h2>Join as a player</h2>
 
-    <h2>Join as a player</h2>
+        <form action="/join" method="POST">
+            <fieldset role="group">
+                <input name="name" placeholder="Name" required>
 
-    <form action="/join" method="POST">
-        <label>
-            <input name="name" placeholder="Name" required>
-        </label>
-        <button type="submit">Join</button>
-    </form>
-    
-    <form action="/narrator/join" method="POST">
-        <label>
-            <input name="code" type="number" placeholder="Narrator Code" required>
-        </label>
-        <button type="submit">I am the narrator</button>
-    </form>
+                <input type="submit" value="Join">
+            </fieldset>
+        </form>
+    </article>
+
+    <footer>
+        <form action="/narrator/join" method="POST">
+            <fieldset role="group">
+                <input name="code" type="number" placeholder="Narrator Code" required>
+                
+                <input type="submit" value="I am the narrator">
+            </fieldset>
+        </form>
+    </footer>
 {% endblock %}
