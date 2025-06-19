@@ -1,0 +1,22 @@
+{% block title %}
+    Start
+{% endblock %}
+
+{% block content %}
+
+    <h2>Join as a player</h2>
+
+    <form action="/join" method="POST">
+        <label>
+            <input name="name" placeholder="Name" required>
+        </label>
+        <button type="submit">Join</button>
+    </form>
+    
+    <form action="/narrator/join" method="POST">
+        <label>
+            <input name="code" type="number" placeholder="Narrator Code" required>
+        </label>
+        <button type="submit">I am the narrator</button>
+    </form>
+{% endblock %}

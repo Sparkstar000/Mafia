@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html lang="en" data-theme="dark">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Mafia | {% block title %}{% endblock %}</title>
+
+    <script src="/static/js/utils.js"></script>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.red.min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><strong><a href="/">Mafia</a></strong></li>
+            </ul>
+
+            <ul>
+                {% block nav %}{% endblock %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>    
+</body>
+
+</html>

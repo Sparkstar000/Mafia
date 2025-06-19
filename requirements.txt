@@ -1,0 +1,8 @@
+# Flask Framework
+Flask
+
+# Turso API Library
+libsql-client
+
+# Enviroment Variables
+python-dotenv
