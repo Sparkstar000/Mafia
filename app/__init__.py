@@ -25,7 +25,7 @@ def index():
 @app.get("/players")
 def spectate():
     client = connect_db()
-    sql = """SELECT * from players ORDER BY id ASC"""
+    sql = """SELECT * from players WHERE id > 1 ORDER BY id ASC"""
     result = client.execute(sql)
     players = result.rows
     return render_template("pages/players.jinja", players=players, id=0)
@@ -37,7 +37,7 @@ def players(encoded):
 
     client = connect_db()
 
-    sql = """SELECT * from players ORDER BY id ASC"""
+    sql = """SELECT * from players WHERE id > 1 ORDER BY id ASC"""
     result = client.execute(sql)
     players = result.rows
 
