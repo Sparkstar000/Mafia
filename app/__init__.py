@@ -23,27 +23,25 @@ def index():
     return render_template("pages/home.jinja")
 
 @app.get("/players")
-def players():
+def spectate():
     client = connect_db()
     sql = """SELECT * from players ORDER BY id ASC"""
     result = client.execute(sql)
     players = result.rows
-    return render_template("pages/players.jinja", players=players, self = )
+    return render_template("pages/players.jinja", players=players, id=0)
 
-@app.get("/players/<int:id>")
-def withplayers(id):
+@app.get("/players/<int:encoded>")
+def players(encoded):
+
+    id = encoded / 27
+
     client = connect_db()
 
     sql = """SELECT * from players ORDER BY id ASC"""
     result = client.execute(sql)
     players = result.rows
 
-    sql = """SELECT * from players WHERE id=?"""
-    values = [id]
-    result = client.execute(sql, values)
-    self = result.rows[0]
-
-    return render_template("pages/players.jinja", players=players, self=self)
+    return render_template("pages/players.jinja", players=players, id=id)
 
 @app.post("/join")
 def join():
@@ -61,4 +59,28 @@ def join():
     result = client.execute(sql, values)
     id = result.rows[0]
 
-    return redirect(f"/players/{id[0]}")
+    return redirect(f"/players/{id[0] * 27}")
+
+
+@app.post("/rerole/<int:id>")
+def rerole(id):
+
+    role = request.form.get("role")
+
+    client = connect_db()
+
+    sql = """UPDATE players SET role=? WHERE id=?"""
+    values = [role,id]
+    client.execute(sql, values)
+
+    return redirect("/narrator/27")
+
+
+@app.get("/narrator/27")
+def narrate():
+    client = connect_db()
+    sql = """SELECT * from players ORDER BY id ASC"""
+    result = client.execute(sql)
+    players = result.rows
+
+    return render_template("pages/narrate.jinja", players=players)

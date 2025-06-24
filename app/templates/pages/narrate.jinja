@@ -21,16 +21,26 @@
         <h2>Players</h2>
 
         <table>
+            <thead>
+                <th>Player</th>
+                <th>Role</th>
+                <th>State</th>
+            </thead>
             <tbody>
                 {% for player in players %}
 
                 <tr>
-                    {% if id == player.id %}
-                        <td><strong>{{player.name}}</strong></td>
-                    {% else %}
-                        <td>{{player.name}}</td>
-                    {% endif %}
+                    <td>{{player.name}}</td>
 
+                    <td><form action="/rerole/{{player.id}}" method="POST">
+                        <select name="role" onchange="this.form.submit()">
+                            <option disabled selected>{{player.role}}</option>
+                            <option>innocent</option>
+                            <option>mafia</option>
+                            <option>doctor</option>
+                        </select>
+                    
+                    </form></td>
 
                     {% if player.state == "A" %}
                         <td id="A">Alive</td>
