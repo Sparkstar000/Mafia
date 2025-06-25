@@ -9,6 +9,7 @@ app = Flask(__name__)
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASE_KEY = os.getenv("DATABASE_KEY")
+SECRET_CODE = int(os.getenv("SECRET_CODE"))
 
 client = None
 
@@ -22,18 +23,18 @@ def connect_db():
 def index():
     return render_template("pages/home.jinja")
 
-@app.get("/players")
+@app.get("/spectate")
 def spectate():
     client = connect_db()
     sql = """SELECT * from players WHERE id > 1 ORDER BY id ASC"""
     result = client.execute(sql)
     players = result.rows
-    return render_template("pages/players.jinja", players=players, id=0)
+    return render_template("pages/spectate.jinja", players=players)
 
-@app.get("/players/<int:encoded>")
+@app.get("/player/<int:encoded>")
 def players(encoded):
 
-    id = encoded / 27
+    id = encoded / SECRET_CODE
 
     client = connect_db()
 
@@ -41,7 +42,14 @@ def players(encoded):
     result = client.execute(sql)
     players = result.rows
 
-    return render_template("pages/players.jinja", players=players, id=id)
+    sql = """SELECT * from players WHERE id =?"""
+    values = [id]
+    result = client.execute(sql, values)
+    if len(result.rows) >= 1 :
+        my = result.rows[0]
+        return render_template("pages/player.jinja", players=players, my=my)
+    else:
+        return render_template("pages/404.jinja")
 
 @app.post("/join")
 def join():
@@ -59,7 +67,7 @@ def join():
     result = client.execute(sql, values)
     id = result.rows[0]
 
-    return redirect(f"/players/{id[0] * 27}")
+    return redirect(f"/player/{id[0] * SECRET_CODE}")
 
 
 @app.post("/rerole/<int:id>")
@@ -73,7 +81,7 @@ def rerole(id):
     values = [role,id]
     client.execute(sql, values)
 
-    return redirect("/narrator/27")
+    return redirect(f"/narrator/{SECRET_CODE}")
 
 
 @app.get("/narrator/27")
@@ -84,3 +92,9 @@ def narrate():
     players = result.rows
 
     return render_template("pages/narrate.jinja", players=players)
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template("pages/404.jinja")
+
+

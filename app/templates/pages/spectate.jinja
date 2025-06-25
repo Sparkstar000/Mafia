@@ -1,19 +1,7 @@
 {% extends 'pages/base.jinja' %}
 
 {% block title %}
-    Players
-{% endblock %}
-
-{% block nav %}
-    <ul>
-        <li><strong><a href="/">Mafia</a></strong></li>
-
-        <li>
-            <a href="/players">Players</a>
-            <a href="/role">My Role</a>
-            <a href="/players">Chat</a>
-        </li>
-    </ul>
+    Spectate
 {% endblock %}
 
 {% block content %}
@@ -25,13 +13,8 @@
                 {% for player in players %}
 
                 <tr>
-                    {% if id == player.id %}
-                        <td><strong>{{player.name}}</strong></td>
-                    {% else %}
-                        <td>{{player.name}}</td>
-                    {% endif %}
-
-
+                    <td>{{player.name}}</td>
+                    
                     {% if player.state == "A" %}
                         <td id="A">Alive</td>
                     {% else %}

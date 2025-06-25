@@ -1,0 +1,36 @@
+{% extends 'pages/base.jinja' %}
+
+{% block title %}
+    Player
+{% endblock %}
+
+{% block content %}
+    <article>
+        <h2>Players</h2>
+
+        <table>
+            <tbody>
+                {% for player in players %}
+
+                <tr>
+                    {% if my.id == player.id %}
+                        <td><strong id="self">{{player.name}}</strong></td>
+                    {% elif my.role != "innocent" and player.role == my.role %}
+                        <td id="colleague">{{player.name}}</td>
+                    {% else %} 
+                        <td>{{player.name}}</td>
+                    {% endif %}
+
+
+                    {% if player.state == "A" %}
+                        <td id="A">Alive</td>
+                    {% else %}
+                        <td id="D">Dead</td>
+                    {% endif %}
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+    </footer>
+{% endblock %}
